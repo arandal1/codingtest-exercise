@@ -1,0 +1,65 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.*;
+
+public class baekjoon_5014 {
+    static int height,Now,Want,upbutton,downbutton,answer;
+    static boolean[] floor;
+    
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+         height = Integer.parseInt(st.nextToken());
+         Now = Integer.parseInt(st.nextToken());
+         Want = Integer.parseInt(st.nextToken());
+         upbutton = Integer.parseInt(st.nextToken());        
+         downbutton =Integer.parseInt(st.nextToken());
+         
+         floor = new boolean[height+1];
+         
+         
+        int result=bfs(Now);
+        if(result==-1){
+            System.out.println("use the stairs");
+        }else{
+            System.out.println(result);
+        }
+         
+        
+    }
+    public static int bfs(int now){
+        Queue<Integer> q = new LinkedList<>();
+        q.add(now);
+        floor[now]=true;
+        int size =0;
+        int count=-1;
+        while(!q.isEmpty()){
+            size = q.size();
+            count++;
+            for(int i=0;i<size;i++){
+                int f =q.poll();
+                if(f==Want){
+                return count;
+               
+                }                                           
+                if( f+upbutton<=height && floor[f+upbutton]!=true){
+                    q.add(f+upbutton);
+                    
+                    floor[f+upbutton]=true;
+                                      
+                }
+                if(f-downbutton>0 &&floor[f-downbutton]==false){
+                    q.add(f-downbutton);
+                    
+                    floor[f-downbutton]=true;
+                }   
+            }
+            
+           
+        }
+        return -1;
+        
+    }
+}//큐를 이용한 bfs +qu 사이즈로 반복문을 설정해 줘서 깊이를 구하는 방식으로 버튼누른 횟수를 구함
